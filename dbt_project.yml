@@ -1,0 +1,32 @@
+name: 'insurance_dbt_poc'
+version: '1.0'
+config-version: 2
+
+profile: 'default'
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+target-path: "target"
+clean-targets: ["target", "dbt_modules", "dbt_packages"]
+
+models:
+  +persist_docs:
+    relation: true
+    columns: true
+  +materialized: view
+  insurance_dbt_poc:
+    raw:
+      +schema: "{{ env_var('DBT_RAW_SCHEMA') }}"
+    silver:
+      +schema: "{{ env_var('DBT_SL_SCHEMA') }}"
+    gold:
+      +schema: "{{ env_var('DBT_GL_SCHEMA') }}"
+
+on-run-end:
+  - "{{ centralize_test_failures(results) }}"
+  - "{{ insert_failed_tests(results) }}"
+
+tests:
+  +store_failures: true
+  +schema: "{{ env_var('DBT_AUDIT_SCHEMA') }}"
