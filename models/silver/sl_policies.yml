@@ -1,10 +1,10 @@
 version: 2
 
 models:
-  - name: sl_claims
-    description: Silver layer for claims
+  - name: sl_policies
+    description: Silver layer for policies
     columns:
-      - name: claim_id
+      - name: policy_id
         description: Primary key
         meta:
           pk: true
@@ -16,11 +16,9 @@ models:
               config:
                 store_failures: true
 
-      - name: policy_id
-        description: Foreign key to policy
+      - name: policy_type
         tests:
-          - validate_foreign_key:
-              ref_model: "{{ ref('raw_policies') }}"
-              ref_column: policy_id
+          - expect_column_values_to_be_in_list:
+              values: ['Health', 'Life', 'Auto']
               config:
                 store_failures: true

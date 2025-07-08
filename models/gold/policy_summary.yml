@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: gl_policy_summary
+    description: Business summary view of policies and claims
+    columns:
+      - name: policy_id
+        description: Joined from policy
+      - name: claim_id
+        description: Joined from claims

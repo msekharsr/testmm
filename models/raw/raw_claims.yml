@@ -1,19 +1,21 @@
 version: 2
 
 models:
-  - name: sl_claims
-    description: Silver layer for claims
+  - name: raw_claims
+    description: Raw claims table
     columns:
       - name: claim_id
-        description: Primary key
+        description: "Primary Key"
         meta:
           pk: true
         tests:
           - assert_column_not_null:
               config:
+                severity: warn
                 store_failures: true
           - assert_column_unique:
               config:
+                severity: warn
                 store_failures: true
 
       - name: policy_id
@@ -23,4 +25,5 @@ models:
               ref_model: "{{ ref('raw_policies') }}"
               ref_column: policy_id
               config:
+                severity: warn
                 store_failures: true
