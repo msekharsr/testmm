@@ -3,7 +3,7 @@
   {% set issues = results | selectattr('status', 'in', ['fail', 'warn']) | list %}
 
   {% if issues | length > 0 %}
-    {% do log("📋 Found " ~ issues | length ~ " failed/warning tests. Inserting into FAILED_TEST_RECORDS...", info=True) %}
+    {% do log("Found " ~ issues | length ~ " failed/warning tests. Inserting into FAILED_TEST_RECORDS...", info=True) %}
 
     {% for result in issues %}
       {% set node = result.node %}
