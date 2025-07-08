@@ -12,7 +12,7 @@
       {% set relation = node.relation_name %}
 
       {% if relation is not none %}
-        {% do log("🚨 Inserting from: " ~ relation ~ " | Test: " ~ test_name ~ " | Type: " ~ error_type, info=True) %}
+        {% do log("Inserting from: " ~ relation ~ " | Test: " ~ test_name ~ " | Type: " ~ error_type, info=True) %}
 
         INSERT INTO {{ env_var('DBT_AUDIT_DB') }}.{{ env_var('DBT_AUDIT_SCHEMA') }}.FAILED_TEST_RECORDS (
           job_name,
@@ -28,12 +28,12 @@
         FROM {{ relation }};
 
       {% else %}
-        {% do log("⚠️ Skipping test (no relation): " ~ test_name, info=True) %}
+        {% do log("Skipping test (no relation): " ~ test_name, info=True) %}
       {% endif %}
     {% endfor %}
 
-    {% do log("✅ insert_failed_tests macro completed.", info=True) %}
+    {% do log("insert_failed_tests macro completed.", info=True) %}
   {% else %}
-    {% do log("🎉 No failed or warning tests to insert.", info=True) %}
+    {% do log("No failed or warning tests to insert.", info=True) %}
   {% endif %}
 {% endmacro %}
