@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: sl_claims
+    description: Silver layer for claims
+    columns:
+      - name: claim_id
+        description: Primary key
+        meta:
+          pk: true
+        tests:
+          - assert_column_not_null:
+              config:
+                store_failures: true
+          - assert_column_unique:
+              config:
+                store_failures: true
+
+      - name: policy_id
+        description: Foreign key to policy
+        tests:
+          - validate_foreign_key:
+              ref_model: "{{ ref('raw_policies') }}"
+              ref_column: policy_id
+              config:
+                store_failures: true
+
+    tests:
+      - test_threshold_check:
+          compare_model_name: raw_claims
+          column:
+            source_column: claim_id
+            target_column: claim_id
+          operators:
+            source_operators: "="
+            target_operators: "="
+          filter:
+            source_filter: "@key"
+            target_filter: "@value"
+          additional_filter:
+            2: '2'
+
+    config:
+      src_name: "Adaptive_DISC_BDGT"
+      stage: "Bronze"
+      ops_upd: "UPD"
+      ops_ins: "INS"
+      status_success: "Success"
+      status_start: "Started"
+      status_fail: "Failed"
+      proc_typ_msg_start: "Started validation checks for Transient Table"
+      proc_typ_msg_success: "validation checks for Transient Table are successfull"
+      integration_id: ''
+      flag: 'Y'
