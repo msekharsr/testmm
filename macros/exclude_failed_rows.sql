@@ -2,8 +2,8 @@
     {% set source_table_name = source_relation.identifier %}
     {% set audit_schema = target.schema ~ '_' ~ env_var('DBT_AUDIT_SCHEMA') %}
     {% do log("Running exclude_failed_rows for table: " ~ source_table_name, info=True) %}
-    {% do log("✅ Using PK column: " ~ pk_column, info=True) %}
-    {% do log("🔍 Audit schema: " ~ audit_schema, info=True) %}
+    {% do log("Using PK column: " ~ pk_column, info=True) %}
+    {% do log("Audit schema: " ~ audit_schema, info=True) %}
 
     {% set get_tables_query %}
         SELECT table_name
