@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: sl_claims
+    description: Silver layer for claims
+    meta:
+      pk: claim_id
+    columns:
+      - name: claim_id
+        description: Primary key

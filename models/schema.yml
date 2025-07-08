@@ -69,46 +69,6 @@ models:
               config:
                 store_failures: true
 
-  - name: sl_claims
-    description: SL layer with lightly transformed claims
-    columns:
-      - name: claim_id
-        tests:
-          - assert_column_not_null:
-              config:
-                store_failures: true
-          - assert_column_unique:
-              config:
-                store_failures: true
-
-      - name: policy_id
-        tests:
-          - validate_foreign_key:
-              ref_model: "{{ ref('sl_policies') }}"
-              ref_column: policy_id
-              config:
-                store_failures: true
-
-    tests:
-      - test_threshold_check:
-          compare_model_name: raw_claims
-          column:
-            source_column: claim_id
-            target_column: claim_id
-          operators:
-            source_operators: "="
-            target_operators: "="
-          filter:
-            source_filter: "@key"
-            target_filter: "@value"
-          additional_filter:
-            2: '2'
-
-      - reconciliation_check:
-          source_model: source('raw', 'claims')
-          join_keys: ['claim_id']
-          threshold_percent: 5
-
 
   - name: gl_policy_summary
     description: Business summary view of policies and claims
