@@ -16,7 +16,7 @@
     {% set test_tables = table_result.columns[0].values() if table_result else [] %}
 
     {% if test_tables | length == 0 %}
-        {% do log("✅ No test tables found. Returning all rows", info=True) %}
+        {% do log("No test tables found. Returning all rows", info=True) %}
         {{ return("SELECT * FROM " ~ source_relation) }}
     {% endif %}
 
